@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="practice.css">
+	<title>Color Game</title>
+	<script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
+</head>
+<body>
+
+
+<!--<div class = "row">
+	<div class="col-lg-3 orange">hello</div>
+	<div id="heading" class="col-lg-6">
+		
+		<h1>THE GREAT <br><span id="chosen"></span> <br>GUESSING GAME</h1>
+		
+	</div>
+	<div class="col-lg-3 orange"></div>
+	
+</div>-->
+
+<div id="heading" >	
+	<h1>THE GREAT <br><span id="chosen"></span> <br>GUESSING GAME</h1>	
+</div>
+
+
+<form action="/challenge" method="get">
+<div id="stripe">
+	<span id="spacing">
+	<button id="reset" formaction="/practice">New Colors</button>
+	</span>
+	<span id="message"></span>
+<button class="mode">Challenge Mode</button>
+</div>
+	</form>
+<div id="stripe">
+	
+	<span id="btns">
+		<button class="mode">Easy</button>
+		<button class="mode selected">Normal</button>
+		<button class="mode">Hard</button>
+	</span>
+	</div>
+
+<div id="container">
+	<div class= "square"></div>
+	<div class= "square"></div>
+	<div class= "square"></div>
+	<div class= "square hideEasy"></div>
+	<div class= "square hideEasy"></div>
+	<div class= "square hideEasy"></div>
+	<div class= "square hideMed hideEasy"></div>
+	<div class= "square hideMed hideEasy"></div>
+	<div class= "square hideMed hideEasy"></div>
+</div>
+<script type="text/javascript" src="rgb2.js"></script>
+</body>
+</html>
+
+<script>
+var numBoxes=6;
+var colors = [];
+var pickedColour;
+var squares = document.querySelectorAll(".square");
+var chosen = document.querySelector("#chosen");
+var message = document.querySelector("#message");
+var heading=  document.querySelector("h1");
+var reset = document.querySelector("#reset");
+var btn = document.querySelectorAll(".mode");
+
+init();
+
+
+function init(){
+btnSetup();
+squareSetup();
+resetbtnSetup();
+reset1();
+
+
+
+}
+
+function btnSetup(){
+for (var i = 0; i < btn.length; i++) {
+btn[i].addEventListener("click", function(){
+btn[0].classList.remove("selected");
+btn[1].classList.remove("selected");
+btn[2].classList.remove("selected");
+
+this.classList.add("selected");
+if (this.textContent==="Easy"){
+numBoxes=3;
+$(".hideEasy").fadeOut(0); 
+}else if(this.textContent==="Normal"){
+numBoxes=6;
+$(".hideEasy").fadeIn(0); 
+$(".hideMed").fadeOut(0); 
+}else{
+numBoxes=9;
+$(".hideEasy").fadeIn(0); 
+}
+reset1();
+});
+}
+}
+
+
+function squareSetup(){
+for (var i = 0; i < squares.length; i++) {
+squares[i].addEventListener("click", function(){
+if(!(this.style.backgroundColor === pickedColour)){
+this.style.backgroundColor = "#232323" ;
+message.textContent = "Try Again";
+
+}else{
+message.textContent = "Correct!";
+changeColors(pickedColour);
+if (!(pickedColour=== "white")){
+heading.style.backgroundColor = pickedColour;
+}
+reset.textContent="Play Again?";
+}
+});
+
+}
+
+$(".hideMed").fadeOut(0); 
+}
+
+
+
+function resetbtnSetup(){
+reset.addEventListener("click", function(){	
+reset1();
+});
+
+}
+
+
+function reset1(){
+
+colors = colorArray(numBoxes);
+pickedColour = pickColor();
+chosen.textContent = pickedColour;
+setBoxColors();
+heading.style.backgroundColor="steelblue";
+message.textContent="";
+reset.textContent="New Colors";
+}
+
+function setBoxColors(){
+for (var i = 0; i < colors.length; i++) {
+squares[i].style.backgroundColor =colors[i];
+}
+}
+
+function changeColors(color){
+for (var i = 0; i < numBoxes; i++) {
+squares[i].style.backgroundColor =color;
+}
+}
+
+function pickColor(){
+var random = Math.floor(Math.random()* colors.length);
+return colors[random];
+}
+
+function colorArray(num){
+var arr=[]
+
+for (var i = 0; i < num; i++) {
+arr[i] = rgb();
+}
+return arr;
+}
+
+function rgb(){
+var random1 = Math.floor(Math.random()* 256);
+var random2 = Math.floor(Math.random()* 256);
+var random3 = Math.floor(Math.random()* 256);
+var color ="rgb(" + random1 + ", " +random2 + ", " + random3 +")";
+return color;
+}
+
+
+</script>
