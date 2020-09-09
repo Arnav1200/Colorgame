@@ -33,16 +33,14 @@
 	<button id="reset" formaction="javascript:void(0);">New Colors</button>
 	</span>
 	<span id="message"></span>
-<button class="mode">Challenge Mode</button>
+<button>Challenge Mode</button>
 </div>
 	</form>
 <div id="stripe">
 	
-	<span id="btns">
 		<button class="mode">Easy</button>
 		<button class="mode selected">Normal</button>
 		<button class="mode">Hard</button>
-	</span>
 	</div>
 
 <div id="container">
@@ -92,6 +90,7 @@ btn[1].classList.remove("selected");
 btn[2].classList.remove("selected");
 
 this.classList.add("selected");
+
 if (this.textContent==="Easy"){
 numBoxes=3;
 $(".hideEasy").fadeOut(0); 
